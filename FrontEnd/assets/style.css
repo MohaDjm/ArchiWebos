@@ -126,6 +126,51 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+/* Filters */
+
+.filters {
+	height: 139px;
+	grid-gap: 10px;
+}
+
+.btn_filters {
+	border: solid #1D6154 1px;
+	border-radius: 25px;
+	color: #1D6154;
+	height: 37px;
+	padding: 9px 0 9px 0;
+	cursor: pointer;
+}
+
+.btn_filters:hover {
+	background: #1D6154;
+	color: #ffffff;
+}
+
+.all_filter {
+	padding: 0 29px 0 29px;
+}
+
+.object_filter {
+	padding: 0 21px 0 21px;
+}
+
+.apartment_filter {
+	padding: 0 14px 0 14px;
+}
+
+.hotel_restaurant_filter {
+	padding: 0 10px 0 10px;
+}
+
+.btn_filters span {
+	font-family: 'Syne';
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 19px;
+}
+
 .gallery {
 	width: 100%;
 	display: grid;
