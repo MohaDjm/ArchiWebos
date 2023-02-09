@@ -1,29 +1,75 @@
-// Référence aux éléments HTML
-const filters = document.querySelectorAll('.btn_filters');
-const figures = document.querySelectorAll('figure');
+fetch('http://localhost:5678/api/works')
+.then(response => response.json()) // On convertit la réponse en JSON
+.then(data => {
+  // On boucle sur les données
+  for (const item of data) {
+    // On crée une nouvelle figure
+    const figure = document.createElement('figure');
+    
+    // On crée l'image
+    const img = document.createElement('img');
+    img.src = item.imageUrl;
+    img.alt = item.title;
+    img.names = item.category.name;
+    console.log(img.names);
+    img.setAttribute("crossorigin", "anonymous"); // Ajout du tag "crossorigin"
+    
+    
+    // On crée la légende
+    const figcaption = document.createElement('figcaption');
+    figcaption.textContent = item.title;
+    
+    // On ajoute l'image et la légende à la figure
+    figure.appendChild(img);
+    figure.appendChild(figcaption);
+    
+    // On ajoute la figure au conteneur "gallery"
+    document.querySelector('.gallery').appendChild(figure);
+  }
 
-// Ajouter un écouteur d'événement "click" pour chaque filtre
-filters.forEach(filter => {
-  filter.addEventListener('click', e => {
-    // Enlever la classe "active" des autres filtres
-    filters.forEach(f => f.classList.remove('active'));
-    // Ajouter la classe "active" au filtre sélectionné
-    e.target.classList.add('active');
-    // Récupérer le type de filtre sélectionné
-    const filterType = e.target.textContent;
-    // Filtrer les figures en fonction du type de filtre sélectionné
-    figures.forEach(figure => {
-      if (filterType === 'Tous') {
-        figure.style.display = 'block';
-      } else if (filterType === 'Objets' && figure.textContent.includes('Abajour')) {
-        figure.style.display = 'block';
-      } else if (filterType === 'Appartements' && figure.textContent.includes('Appartement')) {
-        figure.style.display = 'block';
-      } else if (filterType === 'Hôtel & restaurants' && (figure.textContent.includes('Restaurant') || figure.textContent.includes('Hotel'))) {
+  // Ajout du filtrage
+  const allFilter = document.querySelector('.all_filter');
+  const objectFilter = document.querySelector('.object_filter');
+  const apartmentFilter = document.querySelector('.apartment_filter');
+  const hotelRestaurantFilter = document.querySelector('.hotel_restaurant_filter');
+
+  allFilter.addEventListener('click', function() {
+    const figures = document.querySelectorAll('figure');
+    for (const figure of figures) {
+      figure.style.display = 'block';
+    }
+  });
+
+  objectFilter.addEventListener('click', function() {
+    const figures = document.querySelectorAll('figure');
+    for (const figure of figures) {
+      if (figure.querySelector('img').names === 'Objets') {
         figure.style.display = 'block';
       } else {
         figure.style.display = 'none';
       }
-    });
+    }
+  });
+
+  apartmentFilter.addEventListener('click', function() {
+    const figures = document.querySelectorAll('figure');
+    for (const figure of figures) {
+      if (figure.querySelector('img').names === 'Appartements') {
+        figure.style.display = 'block';
+      } else {
+        figure.style.display = 'none';
+      }
+    }
+  });
+
+  hotelRestaurantFilter.addEventListener('click', function() {
+    const figures = document.querySelectorAll('figure');
+    for (const figure of figures) {
+      if (figure.querySelector('img').names === 'Hotels & restaurants') {
+        figure.style.display = 'block';
+      } else {
+        figure.style.display = 'none';
+      }
+    }
   });
 });
