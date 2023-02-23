@@ -82,3 +82,35 @@
   font-weight: 700;
   line-height: 35px;
 }
+
+
+.modalBtn {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+}
+
+#ajouter-photo {
+  position: absolute;
+  top: 0;
+  transform: translateY(-50%);
+  border: green 1px solid;
+  border-radius: 60px;
+  color: white;
+  background: #1D6154;
+  cursor: pointer;
+  height: 37px;
+}
+
+#supprimer-galerie {
+  position: absolute;
+  bottom: 0;
+  transform: translateY(50%);
+  border: none;
+  color: red;
+  height: 37px;
+  cursor: pointer;
+  background-color: inherit;
+}

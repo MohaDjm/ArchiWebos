@@ -179,6 +179,7 @@ fetch('http://localhost:5678/api/works')
     img.src = item.imageUrl;
     img.alt = item.title;
     img.names = item.category.name;
+    img.id = item.id;
     console.log(img.names);
     img.setAttribute("crossorigin", "anonymous"); // Ajout du tag "crossorigin"
 
@@ -215,8 +216,10 @@ function displayGalleryImages(images) {
     const img = document.createElement('img');
     img.src = image.src;
     img.alt = image.alt;
+    img.id = image.id;
     img.classList.add('modal-image');
     img.setAttribute("crossorigin", "anonymous"); // Ajout du tag "crossorigin"
+
 
     // Ajouter l'élément image au conteneur
     imageContainer.appendChild(img);
@@ -247,8 +250,9 @@ function displayGalleryImages(images) {
       const parent = deleteIcon.parentElement;
       parent.remove();
 
+      console.log(img.id);
       // Suppression de l'image depuis l'API
-      fetch(`http://localhost:5678/api/works/${image.id}`, {
+      fetch(`http://localhost:5678/api/works/${img.id}`, {
         method: 'DELETE'
       })
       .then(response => {
