@@ -162,7 +162,6 @@ window.addEventListener("click", function(event) {
   }
 });
 
-// NOUVEAU CODE TESTS
 
 fetch('http://localhost:5678/api/works')
 .then(response => response.json()) // On convertit la réponse en JSON
@@ -208,19 +207,60 @@ function displayGalleryImages(images) {
   modalBody.innerHTML = '';
 
   images.forEach(image => {
-    // Ajouter une classe à chaque image
-    image.classList.add('modal-image');
+    // Créer le conteneur de l'image et de l'icône de suppression
+    const imageContainer = document.createElement('div');
+    imageContainer.classList.add('image-container');
 
-    // Ajouter un événement clic à chaque image
-    image.addEventListener('click', () => {
-      const modalImg = document.createElement('img');
-      modalImg.src = image.src;
-      modalImg.classList.add('modal-content');
-      const modal = document.getElementById('modal');
-      modal.style.display = 'block';
-      modal.appendChild(modalImg);
+    // Créer l'élément image
+    const img = document.createElement('img');
+    img.src = image.src;
+    img.alt = image.alt;
+    img.classList.add('modal-image');
+    img.setAttribute("crossorigin", "anonymous"); // Ajout du tag "crossorigin"
+
+    // Ajouter l'élément image au conteneur
+    imageContainer.appendChild(img);
+
+    // Ajouter le texte "éditer" en bas de chaque image
+    const editSpan = document.createElement('span');
+    editSpan.textContent = 'éditer';
+    imageContainer.appendChild(editSpan);
+
+    // Créer l'icône de suppression
+    const deleteIcon = document.createElement('i');
+    deleteIcon.classList.add('fa-solid', 'fa-trash-can', 'delete-icon');
+
+    // Ajouter l'icône de suppression au conteneur
+    imageContainer.appendChild(deleteIcon);
+
+    // Ajouter le conteneur d'image au corps de la modale
+    modalBody.appendChild(imageContainer);
+
+    deleteIcon.addEventListener('click', function() {
+      // Récupération de l'index de l'image dans le tableau
+      const index = images.indexOf(image);
+
+      // Suppression de l'image de la galerie
+      images.splice(index, 1);
+
+      // Suppression de l'élément de la modale
+      const parent = deleteIcon.parentElement;
+      parent.remove();
+
+      // Suppression de l'image depuis l'API
+      fetch(`http://localhost:5678/api/works/${image.id}`, {
+        method: 'DELETE'
+      })
+      .then(response => {
+        if (response.ok) {
+          console.log('Image supprimée avec succès');
+        } else {
+          console.log('Une erreur est survenue');
+        }
+      })
+      .catch(error => {
+        console.error('Une erreur est survenue', error);
+      });
     });
-
-    modalBody.appendChild(image);
   });
 }
