@@ -239,22 +239,29 @@ function displayGalleryImages(images) {
     // Ajouter le conteneur d'image au corps de la modale
     modalBody.appendChild(imageContainer);
 
-    deleteIcon.addEventListener('click', function() {
-      // Récupération de l'index de l'image dans le tableau
-      const index = images.indexOf(image);
+deleteIcon.addEventListener('click', function() {
+  // Récupération de l'index de l'image dans le tableau
+  const index = images.indexOf(image);
 
-      // Suppression de l'image de la galerie
-      images.splice(index, 1);
+  // Demande de confirmation
+  if (confirm('Voulez-vous vraiment supprimer cette image ?')) {
 
-      // Suppression de l'élément de la modale
-      const parent = deleteIcon.parentElement;
-      parent.remove();
+    // Suppression de l'image de la galerie
+    images.splice(index, 1);
 
-      console.log(img.id);
-      // Suppression de l'image depuis l'API
-      fetch(`http://localhost:5678/api/works/${img.id}`, {
-        method: 'DELETE'
-      })
+    // Suppression de l'élément de la modale
+    const parent = deleteIcon.parentElement;
+    parent.remove();
+
+    // Suppression de l'image depuis l'API
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer <eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY3NzE2MDgyMywiZXhwIjoxNjc3MjQ3MjIzfQ.YDUjB7xf1VR_qyb7ZAQ8OuDZfJCc9Td_d7ls4RDlP3A>'
+      }
+    };
+
+    fetch(`http://localhost:5678/api/works/${img.id}`, options)
       .then(response => {
         if (response.ok) {
           console.log('Image supprimée avec succès');
@@ -265,6 +272,8 @@ function displayGalleryImages(images) {
       .catch(error => {
         console.error('Une erreur est survenue', error);
       });
-    });
+  }
+});
+
   });
 }
