@@ -205,6 +205,7 @@ fetch('http://localhost:5678/api/works')
 
 function displayGalleryImages(images) {
   const modalBody = document.querySelector('.modal-body');
+  const tokens = localStorage.getItem('token');
   modalBody.innerHTML = '';
 
   images.forEach(image => {
@@ -239,41 +240,119 @@ function displayGalleryImages(images) {
     // Ajouter le conteneur d'image au corps de la modale
     modalBody.appendChild(imageContainer);
 
-deleteIcon.addEventListener('click', function() {
-  // Récupération de l'index de l'image dans le tableau
-  const index = images.indexOf(image);
-
-  // Demande de confirmation
-  if (confirm('Voulez-vous vraiment supprimer cette image ?')) {
-
-    // Suppression de l'image de la galerie
-    images.splice(index, 1);
-
-    // Suppression de l'élément de la modale
-    const parent = deleteIcon.parentElement;
-    parent.remove();
-
-    // Suppression de l'image depuis l'API
-    const options = {
-      method: 'DELETE',
-      headers: {
-        'Authorization': 'Bearer <eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY3NzE2MDgyMywiZXhwIjoxNjc3MjQ3MjIzfQ.YDUjB7xf1VR_qyb7ZAQ8OuDZfJCc9Td_d7ls4RDlP3A>'
+    deleteIcon.addEventListener('click', function() {
+      // Récupération de l'index de l'image dans le tableau
+      const index = images.indexOf(image);
+    
+      // Demande de confirmation
+      if (confirm('Voulez-vous vraiment supprimer cette image ?')) {
+    
+        // Suppression de l'image de la galerie
+        images.splice(index, 1);
+    
+        // Suppression de l'élément de la modale
+        const parent = deleteIcon.parentElement;
+        parent.remove();
+    
+        // Suppression de l'image depuis l'API
+        const options = {
+          method: 'DELETE',
+          headers: {
+            'Authorization': 'Bearer ' + tokens
+          }
+        };
+    
+        fetch(`http://localhost:5678/api/works/${img.id}`, options)
+          .then(response => {
+            if (response.ok) {
+              console.log('Image supprimée avec succès');
+    
+              // Suppression de l'image du DOM
+              const imageElement = document.getElementById(image.id);
+              if (imageElement) {
+                imageElement.parentNode.remove();
+              }
+    
+            } else {
+              console.log('Une erreur est survenue');
+            }
+          })
+          .catch(error => {
+            console.error('Une erreur est survenue', error);
+          });
       }
-    };
-
-    fetch(`http://localhost:5678/api/works/${img.id}`, options)
-      .then(response => {
-        if (response.ok) {
-          console.log('Image supprimée avec succès');
-        } else {
-          console.log('Une erreur est survenue');
-        }
-      })
-      .catch(error => {
-        console.error('Une erreur est survenue', error);
-      });
-  }
-});
+    });
+    
 
   });
 }
+
+
+const addPhotoBtn = document.querySelector('#ajouter-photo');
+addPhotoBtn.addEventListener('click', () => {
+  const addPhotoModal = document.querySelector('#add-photo-modal');
+  addPhotoModal.style.display = 'block';
+});
+
+const addPhotoForm = document.querySelector('#add-photo-form');
+addPhotoForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  // Récupérer les données du formulaire
+  const title = document.querySelector('#title').value;
+  const category = document.querySelector('#category').value;
+  let categoryId = 0;
+  
+  if (category === 'objets') {
+    categoryId = 1;
+  } else if (category === 'appartements') {
+    categoryId = 2;
+  } else if (category === 'hotel_restaurant') {
+    categoryId = 3;
+  }
+
+  const image = document.querySelector('#image').files[0];
+  const token = localStorage.getItem('token');
+  console.log(token);
+
+  // Envoyer les données à l'API
+  const formData = new FormData();
+  formData.append('title', title);
+  formData.append('categoryId', categoryId);
+  formData.append('image', image, image.name);
+
+  const options = {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  };
+
+  try {
+    const response = await fetch('http://localhost:5678/api/works', options);
+
+    if (response.ok) {
+      console.log('Image ajoutée avec succès');
+
+      // Fermer la modale
+      const addPhotoModal = document.querySelector('#add-photo-modal');
+      addPhotoModal.style.display = 'none';
+
+      // Rafraîchir la galerie d'images
+      fetchGalleryImages();
+    } else {
+      console.log('Une erreur est survenue');
+      alert('Une erreur est survenue lors de l\'ajout de l\'image');
+    }
+  } catch (error) {
+    console.error('Une erreur est survenue', error);
+    alert('Une erreur est survenue lors de l\'ajout de l\'image');
+  }
+});
+
+const addPhotoModal = document.querySelector('#add-photo-modal');
+const addPhotoCloseBtn = addPhotoModal.querySelector('.close');
+addPhotoCloseBtn.addEventListener('click', () => {
+  addPhotoModal.style.display = 'none';
+});

@@ -90,11 +90,12 @@
   justify-content: center;
   align-items: center;
   height: 80px;
+  font-family: Syne;
 }
 
 #ajouter-photo {
   position: absolute;
-  top: 0;
+  bottom: 0;
   transform: translateY(-50%);
   border: green 1px solid;
   border-radius: 60px;
@@ -102,6 +103,12 @@
   background: #1D6154;
   cursor: pointer;
   height: 37px;
+  font-family: 'Syne';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  width: 237px;
 }
 
 #supprimer-galerie {
@@ -113,4 +120,80 @@
   height: 37px;
   cursor: pointer;
   background-color: inherit;
+  font-family: 'Syne';
+font-style: normal;
+font-weight: 700;
+font-size: 14px;
+line-height: 17px;
+}
+
+.modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content h2 {
+  padding: 15px;
+}
+
+.modal-content .close{
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 15px;
+}
+
+#add-photo-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#add-photo-modal input {
+  cursor: pointer;
+}
+
+#add-photo-form #valider {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: green 1px solid;
+  border-radius: 60px;
+  color: white;
+  background: #1D6154;
+  cursor: pointer;
+  height: 37px;
+  font-family: 'Syne';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  width: 237px;
+}
+
+#add-photo-form #title {
+  background: #FFFFFF;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  width: 420px;
+  height: 51px;
+  border: none;
+}
+
+#add-photo-form #category {
+  background: #FFFFFF;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  width: 420px;
+  height: 51px;
+}
+
+#add-photo-form label {
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
 }
