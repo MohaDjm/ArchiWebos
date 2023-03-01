@@ -28,15 +28,15 @@ loginForm.addEventListener("submit", async (event) => {
       throw new Error("Echec de la connexion");
     }
 
-    const { token } = await response.json();
+    const { userId, token } = await response.json();
+    localStorage.setItem("userId", userId);
     localStorage.setItem("token", token);
+    console.log(userId, token);
     window.location.href = "./index.html";
   } catch (error) {
     console.log(error);
     loginErrorMsg.style.display = "block";
-    loginButton.innerHTML+=  "Echec de la connexion";
+    loginButton.innerHTML += "Echec de la connexion";
     loginButton.removeAttribute("disabled");
   }
 });
-
-
