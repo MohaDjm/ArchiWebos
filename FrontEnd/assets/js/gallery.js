@@ -301,25 +301,36 @@ addPhotoForm.addEventListener('submit', async (event) => {
   // Récupérer les données du formulaire
   const title = document.querySelector('#title').value;
   const category = document.querySelector('#category').value;
-  let categoryId = 0;
+  let categoryId;
+
+  console.log(categoryId, category);
   
-  if (category === 'objets') {
-    categoryId = 1;
-  } else if (category === 'appartements') {
-    categoryId = 2;
-  } else if (category === 'hotel_restaurant') {
-    categoryId = 3;
+  switch (category) {
+    case 'objets':
+      categoryId = 1;
+      break;
+    case 'appartements':
+      categoryId = 2;
+      break;
+    case 'hotel_restaurant':
+      categoryId = 3;
+      break;
+    default:
+      categoryId = 1; // ou une autre valeur par défaut
   }
 
+console.log(categoryId);
+  
   const image = document.querySelector('#image').files[0];
   const token = localStorage.getItem('token');
-  console.log(token);
-
+  
   // Envoyer les données à l'API
   const formData = new FormData();
   formData.append('title', title);
   formData.append('categoryId', categoryId);
   formData.append('image', image, image.name);
+  
+  console.log(title, categoryId, image.name);
 
   const options = {
     method: 'POST',
@@ -331,6 +342,8 @@ addPhotoForm.addEventListener('submit', async (event) => {
 
   try {
     const response = await fetch('http://localhost:5678/api/works', options);
+    categoryId = Number(categoryId);
+    console.log(categoryId);
 
     if (response.ok) {
       console.log('Image ajoutée avec succès');
