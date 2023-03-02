@@ -329,13 +329,20 @@ console.log(categoryId);
   formData.append('title', title);
   formData.append('categoryId', categoryId);
   formData.append('image', image, image.name);
+
+  console.log(formData.getAll('categoryId'));
+  console.log(formData.getAll('title'));
+  console.log(formData.getAll('image.name'));
+
+
   
-  console.log(title, categoryId, image.name);
+  console.log(title, categoryId, image, image.name);
 
   const options = {
     method: 'POST',
     body: formData,
     headers: {
+      "Content-Type": "multipart/form-data", 
       'Authorization': 'Bearer ' + token
     }
   };
