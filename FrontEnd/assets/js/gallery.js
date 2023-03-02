@@ -342,10 +342,11 @@ console.log(categoryId);
     method: 'POST',
     body: formData,
     headers: {
-      "Content-Type": "multipart/form-data", 
-      'Authorization': 'Bearer ' + token
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'multipart/form-data'
     }
   };
+  
 
   try {
     const response = await fetch('http://localhost:5678/api/works', options);
