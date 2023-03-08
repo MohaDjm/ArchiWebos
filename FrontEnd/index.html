@@ -63,19 +63,30 @@
 			<div class="modal-content">
 			  <span class="close">&times;</span>
 			  <h2>Ajout photo</h2>
-			  <form id="add-photo-form">
-				  <label for="image">Image :</label>
-				  <input type="file" id="image" name="image"><br><br>
+			  <form id="add-photo-form" enctype="multipart/form-data">
+				<div class="picture flexCenter column" id="Upload_img">
+					<img src="assets/icons/image.png" alt="logo image" id="logo_image"/>
+					<label class="picture_input flexCenter">+ Ajout photo<input type="file" id="image" name="image" accept=".jpg, .png"/></label>
+					<p>jpg, png: 4mo max</p>
+				</div><br><br>
+				<span id="error-img"></span>
+
+				<!-- <div class="label_position flex column">
+					<label for="title_picture">Titre</label>
+					<input type="text" id="titlePicture" name="title_picture"/>
+				</div> -->
+				<!-- <label for="image">Image :</label> -->
+				<!-- <input type="file" id="image" name="image"><br><br> -->
 				<label for="title">Titre :</label><br><br>
 				<input type="text" id="title" name="title"><br><br>
 				<label for="category">Catégorie :</label><br><br>
 				<select id="category" name="category">
-				  <option value="objets">Objets</option>
-				  <option value="appartements">Appartements</option>
-				  <option value="hotel_restaurant">Hotels & restaurants</option>
+					<option value="objets">Objets</option>
+					<option value="appartements">Appartements</option>
+					<option value="hotel_restaurant">Hotels & restaurants</option>
 				</select><br><br>
 				<input type="submit" value="Valider" id="valider">
-			  </form>
+			</form>			
 			</div>
 		  </div>
 		  

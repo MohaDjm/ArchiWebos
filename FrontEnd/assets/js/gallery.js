@@ -301,6 +301,8 @@ addPhotoForm.addEventListener('submit', async (event) => {
   // Récupérer les données du formulaire
   const title = document.querySelector('#title').value;
   const category = document.querySelector('#category').value;
+  const image = document.querySelector('#image').files[0];
+
   let categoryId;
 
   console.log(categoryId, category);
@@ -321,7 +323,6 @@ addPhotoForm.addEventListener('submit', async (event) => {
 
 console.log(categoryId);
   
-  const image = document.querySelector('#image').files[0];
   const token = localStorage.getItem('token');
   
   // Envoyer les données à l'API
@@ -333,6 +334,8 @@ console.log(categoryId);
   console.log(formData.getAll('categoryId'));
   console.log(formData.getAll('title'));
   console.log(formData.getAll('image.name'));
+  console.log(formData.getAll('featured_media.name'));
+  console.log(formData.get('image'));
 
 
   
@@ -377,3 +380,58 @@ const addPhotoCloseBtn = addPhotoModal.querySelector('.close');
 addPhotoCloseBtn.addEventListener('click', () => {
   addPhotoModal.style.display = 'none';
 });
+window.addEventListener('click', (event) => {
+  // Si l'événement de clic se produit en dehors de la modale, la fermer
+  if (event.target == addPhotoModal) {
+    addPhotoModal.style.display = 'none';
+  }
+});
+
+
+// Afficher la prévisualisation de l'image à télécharger
+function readFile(e) {
+  e.preventDefault();
+
+  // Constante et fonction pour la lecture de l'image
+  const reader = new FileReader();
+  reader.addEventListener("load", function () {
+    // Créer l'élément d'image de prévisualisation
+    const previewImage = document.createElement("img");
+    previewImage.setAttribute("id", "preview_image");
+    previewImage.setAttribute("src", reader.result);
+  
+    // Ajouter les styles à l'élément de prévisualisation
+    previewImage.style.maxWidth = "380px";
+    previewImage.style.maxHeight = "220px";
+    previewImage.style.width = "auto";
+    previewImage.style.height = "auto";
+    previewImage.style.objectFit = "cover";
+    previewImage.style.objectPosition = "center center";
+    previewImage.style.transform = "translateY(-17px)";
+    previewImage.style.opacity = "1";
+
+      
+    // Ajouter l'image de prévisualisation au conteneur
+    const picture = document.querySelector(".picture");
+    picture.appendChild(previewImage);
+      
+    // Masquer le label de sélection de fichier
+    const label = document.querySelector(".picture > label");
+    label.style.opacity = "0";
+      
+    // Masquer l'image de logo et le paragraphe suivant la prévisualisation de l'image
+    const logoImage = document.querySelector("#logo_image");
+    const pMaxSize = document.querySelector(".picture > p");
+    logoImage.style.display = "none";
+    pMaxSize.style.display = "none";
+  });
+  
+  // Lire le fichier sélectionné
+  reader.readAsDataURL(inputFile.files[0]);
+}
+
+// Récupérer l'élément de fichier
+const inputFile = document.getElementById("image");
+
+// Ajouter un gestionnaire d'événements pour la sélection de fichier
+inputFile.addEventListener("change", readFile);
