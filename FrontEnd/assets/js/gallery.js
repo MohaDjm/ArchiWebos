@@ -308,49 +308,44 @@ addPhotoForm.addEventListener('submit', async (event) => {
   console.log(categoryId, category);
   
   switch (category) {
-    case 'objets':
+    case 'Objets':
       categoryId = 1;
       break;
-    case 'appartements':
+    case 'Appartements':
       categoryId = 2;
       break;
-    case 'hotel_restaurant':
+    case 'Hotel_Restaurant':
       categoryId = 3;
       break;
     default:
       categoryId = 1; // ou une autre valeur par défaut
   }
 
-console.log(categoryId);
+  console.log(categoryId);
   
   const token = localStorage.getItem('token');
   
   // Envoyer les données à l'API
   const formData = new FormData();
   formData.append('title', title);
-  formData.append('categoryId', categoryId);
-  formData.append('image', image, image.name);
+  formData.append('category', categoryId);
+  formData.append('image', image);
 
-  console.log(formData.getAll('categoryId'));
+  console.log(formData.getAll('category'));
   console.log(formData.getAll('title'));
   console.log(formData.getAll('image.name'));
-  console.log(formData.getAll('featured_media.name'));
   console.log(formData.get('image'));
 
-
-  
   console.log(title, categoryId, image, image.name);
 
   const options = {
     method: 'POST',
     body: formData,
     headers: {
-      'Authorization': 'Bearer ' + token,
-      'Content-Type': 'multipart/form-data'
+      'Authorization': 'Bearer ' + token
     }
   };
   
-
   try {
     const response = await fetch('http://localhost:5678/api/works', options);
     categoryId = Number(categoryId);
@@ -371,7 +366,7 @@ console.log(categoryId);
     }
   } catch (error) {
     console.error('Une erreur est survenue', error);
-    alert('Une erreur est survenue lors de l\'ajout de l\'image');
+    // alert('Une erreur est survenue lors de l\'ajout de l\'image');
   }
 });
 
@@ -386,6 +381,9 @@ window.addEventListener('click', (event) => {
     addPhotoModal.style.display = 'none';
   }
 });
+
+
+
 
 
 // Afficher la prévisualisation de l'image à télécharger
