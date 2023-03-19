@@ -433,3 +433,5 @@ const inputFile = document.getElementById("image");
 
 // Ajouter un gestionnaire d'événements pour la sélection de fichier
 inputFile.addEventListener("change", readFile);
+
+
