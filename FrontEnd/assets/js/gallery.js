@@ -240,7 +240,9 @@ function displayGalleryImages(images) {
     // Ajouter le conteneur d'image au corps de la modale
     modalBody.appendChild(imageContainer);
 
-    deleteIcon.addEventListener('click', function() {
+    deleteIcon.addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent default behavior
+    
       // Récupération de l'index de l'image dans le tableau
       const index = images.indexOf(image);
     
@@ -282,8 +284,6 @@ function displayGalleryImages(images) {
           });
       }
     });
-    
-
   });
 }
 
