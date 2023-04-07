@@ -240,6 +240,8 @@ function displayGalleryImages(images) {
     // Ajouter le conteneur d'image au corps de la modale
     modalBody.appendChild(imageContainer);
 
+    
+
     deleteIcon.addEventListener('click', function(event) {
       event.preventDefault(); // Prevent default behavior
     
@@ -308,13 +310,13 @@ addPhotoForm.addEventListener('submit', async (event) => {
   console.log(categoryId, category);
   
   switch (category) {
-    case 'Objets':
+    case 'objets':
       categoryId = 1;
       break;
-    case 'Appartements':
+    case 'appartements':
       categoryId = 2;
       break;
-    case 'Hotel_Restaurant':
+    case 'hotel_restaurant':
       categoryId = 3;
       break;
     default:
